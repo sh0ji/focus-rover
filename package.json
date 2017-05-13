@@ -1,0 +1,33 @@
+{
+  "name": "focus-rover",
+  "version": "1.0.0",
+  "description": "Set a roving focus on a group of elements.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sh0ji/focus-rover.git"
+  },
+  "keywords": [
+    "roving",
+    "focus",
+    "tabindex",
+    "accessibility",
+    "a11y"
+  ],
+  "author": "Evan Yamanishi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sh0ji/focus-rover/issues"
+  },
+  "homepage": "https://github.com/sh0ji/focus-rover#readme",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.9.0"
+  }
+}
