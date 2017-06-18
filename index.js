@@ -27,7 +27,7 @@ const Forward = Symbol('forward');
  * The main class
  * @type {Class}
  */
-class Rover {
+export default class Rover {
     /**
      * [constructor description]
      * @param  {Array} focusableElements An array of focusable elements.
@@ -139,7 +139,3 @@ class Rover {
         return this;
     }
 }
-
-Rover.Rover = Rover;
-
-module.exports = Rover;
