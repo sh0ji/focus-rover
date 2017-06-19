@@ -42,7 +42,7 @@ export default class Rover {
 
     /**
      * Initialize the element
-     * @param  {Boolean} setListeners Option to set the event listeners.
+     * @param {Boolean} setListeners Option to set the event listeners.
      */
     init(setListeners) {
         this.elements.forEach((el, i) => {
