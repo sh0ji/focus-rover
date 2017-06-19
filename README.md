@@ -17,16 +17,21 @@ When the user focuses on any of the elements in the collection, they can then mo
 ## Options
 
 * `vertical` [Boolean] | default: `true`
+
 Causes up and down arrow keys to move focus.
 
 * `horizontal` [Boolean] | default: `true`
+
 Causes left and right arrow keys to move focus.
 
 * `wrap` [Boolean] | default: `true`
+
 Set this to cause arrow keys to wrap around to the beginning or end.
 
 * `initialFocusIndex` [Number] | default: `0`
+
 Set the initially focusable element.
 
 * `resetOnExit` [Boolean] | default: false
-Set this to always
+
+Setting this will cause focus to always reset after tabbing away from the collection.
