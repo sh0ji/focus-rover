@@ -2,14 +2,15 @@
 Set a roving focus on a group of elements. See https://www.w3.org/TR/wai-aria-practices-1.1/#kbd_roving_tabindex for more info.
 
 ## Usage
-Install with `npm install focus-rover --save`.
+* Node.js: install with `npm install focus-rover --save`.
+* Browser: `<script src="focus-rover.min.js" />` ([focus-rover.min.js](https://github.com/sh0ji/focus-rover/blob/master/dist/focus-rover.min.js))
 
 Initialize the focus-rover on any collection of elements.
 ```javascript
-const Rover = require('focus-rover');
+import Rover from 'focus-rover';
 
 const myElements = document.querySelectorAll('li>a');
-const rover = new Rover(myElements);
+const rover = new Rover(myElements[, config]);
 ```
 When the user focuses on any of the elements in the collection, they can then move through them with arrow keys. The next tab press will exit the group.
 
