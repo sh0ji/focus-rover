@@ -35,6 +35,7 @@ export default class Rover {
      */
     constructor(focusableElements, config) {
         this.elements = focusableElements;
+        this.default = Default;
         this.config = Object.assign({}, Default, config);
         if (this.elements.length) this.init(true);
     }
