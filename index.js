@@ -75,7 +75,7 @@ export default class Rover {
             if (this.validKeys.includes(e.code)) {
                 e.preventDefault();
                 const nextIndex = this.nextIndex(i, this.forward.includes(e.code));
-                Rover.moveFocus(el, this.elements[nextIndex]);
+                this.elements[nextIndex].focus();
             }
         });
         el.addEventListener('blur', (e) => {
@@ -129,14 +129,13 @@ export default class Rover {
         return this.backward.concat(this.forward) || [];
     }
 
-    static moveFocus(from, to) {
+    static moveTabindex(from, to) {
         from.setAttribute('tabindex', -1);
         if (to.getAttribute('href')) {
             to.removeAttribute('tabindex');
         } else {
             to.setAttribute('tabindex', 0);
         }
-        to.focus();
         return this;
     }
 }
