@@ -78,6 +78,9 @@ export default class Rover {
                 this.elements[nextIndex].focus();
             }
         });
+        el.addEventListener('focusin', () => {
+            Rover.moveTabindex(this.activeTabindex, el);
+        });
         el.addEventListener('blur', (e) => {
             const newFocus = e.relatedTarget;
             if (this.config.resetOnExit &&
@@ -101,6 +104,10 @@ export default class Rover {
             return currentIndex;
         }
         return currentIndex - 1;
+    }
+
+    get activeTabindex() {
+        return [...this.elements].find(el => el.getAttribute('tabindex') === '0');
     }
 
     get backward() {
