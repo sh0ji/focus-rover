@@ -106,8 +106,8 @@ export default class Rover {
         return currentIndex - 1;
     }
 
-    get activeTabindex() {
-        return [...this.elements].find(el => el.getAttribute('tabindex') === '0');
+    get currentElement() {
+        return this.elements.find(el => el.getAttribute('tabindex') !== '-1');
     }
 
     get backward() {
