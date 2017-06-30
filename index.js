@@ -81,6 +81,7 @@ export default class Rover {
     }
 
     setListeners(el, i) {
+        const notEl = this.elements.filter(elem => elem !== el);
         el.addEventListener('keydown', (e) => {
             if (this.validKeys.includes(e.code)) {
                 e.preventDefault();
@@ -88,13 +89,16 @@ export default class Rover {
                 this.elements[nextIndex].focus();
             }
         });
-        el.addEventListener('focusin', () => {
-            Rover.moveTabindex(this.activeTabindex, el);
+        el.addEventListener('focusin', (e) => {
+            if (e.target !== this.currentElement) {
+                Rover.activate(el);
+                notEl.forEach(elem => Rover.deactivate(elem));
+            }
         });
         el.addEventListener('blur', (e) => {
             const newFocus = e.relatedTarget;
             if (this.config.resetOnExit &&
-                ![...this.elements].includes(newFocus)) {
+                !this.elements.includes(newFocus)) {
                 this.init(false);
             }
         });
@@ -146,13 +150,17 @@ export default class Rover {
         return this.backward.concat(this.forward) || [];
     }
 
-    static moveTabindex(from, to) {
-        from.setAttribute('tabindex', -1);
-        if (to.getAttribute('href')) {
-            to.removeAttribute('tabindex');
+    static activate(el) {
+        if (el.getAttribute('href')) {
+            el.removeAttribute('tabindex');
         } else {
-            to.setAttribute('tabindex', 0);
+            el.setAttribute('tabindex', 0);
         }
+        return this;
+    }
+
+    static deactivate(el) {
+        el.setAttribute('tabindex', -1);
         return this;
     }
 }
