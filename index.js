@@ -33,8 +33,18 @@ export default class Rover {
      * @param  {Array} focusableElements An array of focusable elements.
      * @param  {Object} [config]         An optional configuration.
      */
-    constructor(focusableElements, config) {
-        this.elements = focusableElements;
+    constructor(focusableElements, _config) {
+        let elements = focusableElements || [];
+        let config = _config;
+        if (typeof focusableElements === 'object') {
+            if (focusableElements instanceof NodeList) {
+                elements = Array.from(focusableElements);
+            } else {
+                elements = [];
+                config = focusableElements;
+            }
+        }
+        this.elements = elements;
         this.default = Default;
         this.config = Object.assign({}, Default, config);
         if (this.elements.length) this.init(true);
