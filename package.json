@@ -1,6 +1,6 @@
 {
   "name": "focus-rover",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Set a roving focus on a group of elements.",
   "main": "dist/focus-rover.cjs.js",
   "scripts": {
