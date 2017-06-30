@@ -1,22 +1,31 @@
+/* eslint-disable import/no-extraneous-dependencies */
+const rollupPluginBuble = require('rollup-plugin-buble')();
+
 module.exports = (config) => {
     config.set({
-        frameworks: ['mocha', 'chai', 'fixture'],
+        frameworks: ['mocha', 'chai'],
         files: [
-            'dist/focus-rover.min.js',
-            'test/**/*.js',
+            // library
+            './index.js',
+            // tests
+            './test/**/*.js',
+            // fixtures
             'test/**/*.html',
         ],
-        reporters: ['progress'],
-        // coverageReporter: {
-        //     reporters: [
-        //         // generates ./coverage/lcov.info
-        //         { type: 'lcovonly', subdir: '.' },
-        //         // generates ./coverage/coverage-final.json
-        //         { type: 'json', subdir: '.' },
-        //     ],
-        // },
+        reporters: ['progress', 'coverage'],
         preprocessors: {
             '**/*.html': ['html2js'],
+            './index.js': ['rollup', 'coverage'],
+        },
+        rollupPreprocessor: {
+            plugins: [rollupPluginBuble],
+            format: 'iife',
+            moduleName: 'Rover',
+            sourceMap: 'inline',
+        },
+        coverageReporter: {
+            type: 'html',
+            dir: 'coverage/',
         },
         port: 9876,
         colors: true,
