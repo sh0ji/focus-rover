@@ -1,4 +1,4 @@
-import babel from 'rollup-plugin-babel';
+import buble from 'rollup-plugin-buble';
 import eslint from 'rollup-plugin-eslint';
 import uglify from 'rollup-plugin-uglify';
 
@@ -16,10 +16,7 @@ const config = (format, min) => {
     }
     const plugins = [
         eslint(),
-        babel({
-            exclude: 'node_modules/**',
-            presets: 'es2015-rollup',
-        }),
+        buble(),
     ];
     if (min) plugins.push(uglify());
 
