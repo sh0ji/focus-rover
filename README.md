@@ -1,37 +1,34 @@
 # focus-rover
-Set a roving focus on a group of elements. See https://www.w3.org/TR/wai-aria-practices-1.1/#kbd_roving_tabindex for more info.
+
+Set a roving focus on a group of elements.
+See https://www.w3.org/TR/wai-aria-practices-1.1/#kbd_roving_tabindex for more info.
 
 ## Usage
-* Node.js: install with `npm install focus-rover --save`.
-* Browser: `<script src="focus-rover.min.js" />` ([focus-rover.min.js](https://github.com/sh0ji/focus-rover/blob/master/dist/focus-rover.min.js))
 
 Initialize the focus-rover on any collection of elements.
-```javascript
-import Rover from 'focus-rover';
+Three static methods are available for this.
 
-const myElements = document.querySelectorAll('li>a');
-const rover = new Rover(myElements[, config]);
+```javascript
+// from a CSS selector
+FocusRover.fromSelector('li>a');
+
+// from an existing NodeList
+FocusRover.fromNodeList(document.querySelectorAll('li>a'));
+
+// from a collection of elements
+const anchor1 = document.getElementById('a1');
+const anchor2 = document.getElementById('a2');
+const anchor3 = document.getElementById('a3');
+FocusRover.fromElements(anchor1, anchor2, anchor3);
+
+// let FocusRover figure out what you mean
+FocusRover.from('li>a');
+FocusRover.from(document.querySelectorAll('li>a'));
+FocusRover.from(anchor1, anchor2, anchor3);
 ```
+
 When the user focuses on any of the elements in the collection, they can then move through them with arrow keys. The next tab press will exit the group.
 
-## Options
+## Configuration
 
-* `vertical` [Boolean] | default: `true`
-
-Causes up and down arrow keys to move focus.
-
-* `horizontal` [Boolean] | default: `true`
-
-Causes left and right arrow keys to move focus.
-
-* `wrap` [Boolean] | default: `true`
-
-Set this to cause arrow keys to wrap around to the beginning or end.
-
-* `initialFocusIndex` [Number] | default: `0`
-
-Set the initially focusable element.
-
-* `resetOnExit` [Boolean] | default: false
-
-Setting this will cause focus to always reset after tabbing away from the collection.
+All FocusRover instances will follow the static `FocusRover.config`, which can be modified with `FocusRover.configure(userConfig)`, where `userConfig` can override any of the options in the default config.
