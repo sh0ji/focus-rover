@@ -1,11 +1,23 @@
 module.exports = {
-    extends: 'airbnb',
-    env: {
-        browser: true,
-        mocha: true,
-        node: true,
-    },
+    extends: [
+        'airbnb-base',
+        'plugin:import/typescript',
+        'plugin:@typescript-eslint/recommended',
+    ],
     rules: {
-        indent: ['error', 4],
-    },
+        indent: 'off',
+        'no-tabs': 'off',
+        'lines-between-class-members': [
+            'error',
+            'always',
+            {
+                exceptAfterSingleLine: true,
+            },
+        ],
+        '@typescript-eslint/indent': ['error', 'tab'],
+        '@typescript-eslint/no-empty-interface': 'off',
+	},
+	env: {
+		browser: true,
+	},
 };
