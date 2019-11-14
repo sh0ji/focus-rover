@@ -25,6 +25,7 @@
     "build": "rm -rf lib && tsc -p .",
     "lint": "eslint '**/*.ts'",
     "prepublishOnly": "npm run build && npm run test",
+    "release": "standard-version --sign",
     "test": "nyc ava"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "nyc": "^14.1.1",
+    "standard-version": "^7.0.0",
     "typescript": "^3.7.2"
   },
   "ava": {
