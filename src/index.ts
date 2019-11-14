@@ -22,31 +22,42 @@ export interface FocusRoverConfig {
 }
 
 export default class FocusRover {
+	/** The collection of managed focusable elements. */
 	public elements = new Set<HTMLElement>();
 	private focusIndex = 0;
 	private roving = false;
 
+	/** The element in the collection that is currently focusable. */
+	public get focusedElement(): HTMLElement {
+		return Array.from(this.elements)[this.focusIndex];
+	}
+
+	/** Add an element to the collection of focusable elements. */
 	public addElement(el: HTMLElement): this {
 		el.addEventListener('keydown', this.onKeydown);
 		el.addEventListener('blur', this.onBlur);
 		this.elements.add(el);
-		const tabindex = (Array.from(this.elements)[this.focusIndex] === el) ? '0' : '-1';
+		const tabindex = (this.focusedElement === el) ? '0' : '-1';
 		el.setAttribute('tabindex', tabindex);
 		return this;
 	}
 
-	public focus(index: number): this {
+	/**
+	 * Move the roving focus to a specified index in the collection of focusable
+	 * elements.
+	 */
+	public rove(index: number): this {
 		if (
-			// already focused
+			// not already focused
 			this.focusIndex !== index
-			// outside of the range of eligible indices
+			// and inside of the range of eligible indices
 			&& index >= 0
 			&& index < this.elements.size
 		) {
-			// toggle the roving flag so blur doesn't reset
+			// toggle the roving flag so blur doesn't reset tabindex
 			this.roving = true;
 			// unfocus the currently-focused element
-			Array.from(this.elements)[this.focusIndex].setAttribute('tabindex', '-1');
+			this.focusedElement.setAttribute('tabindex', '-1');
 			// focus the next element
 			const el = Array.from(this.elements)[index];
 			el.removeAttribute('tabindex');
@@ -57,70 +68,90 @@ export default class FocusRover {
 		return this;
 	}
 
-	public focusNext(): this {
+	/** Move the roving focus to the next focusable element in the collection. */
+	public next(): this {
 		let nextIndex = this.focusIndex + 1;
 		if (nextIndex === this.elements.size) {
 			nextIndex = (FocusRover.config.wrap) ? 0 : this.focusIndex;
 		}
-		return this.focus(nextIndex);
+		return this.rove(nextIndex);
 	}
 
-	public focusPrev(): this {
+	/** Move the roving focus to the previous focusable element in the collection. */
+	public prev(): this {
 		let prevIndex = this.focusIndex - 1;
 		if (prevIndex === -1) {
 			prevIndex = (FocusRover.config.wrap) ? this.elements.size - 1 : this.focusIndex;
 		}
-		return this.focus(prevIndex);
+		return this.rove(prevIndex);
 	}
+
+	/** @alias prev */
+	public previous(): this { return this.prev(); }
 
 	private onKeydown = ({ key }: Partial<KeyboardEvent>): void => {
 		if (key) {
 			if (FocusRover.config.nextKeys.includes(key)) {
-				this.focusNext();
+				this.next();
 			} else if (FocusRover.config.prevKeys.includes(key)) {
-				this.focusPrev();
+				this.prev();
 			}
 		}
-	}
+	};
 
 	private onBlur = (): void => {
 		if (!this.roving && FocusRover.config.resetOnBlur) {
-			Array.from(this.elements)[0].removeAttribute('tabindex');
-			Array.from(this.elements)[this.focusIndex].setAttribute('tabindex', '-1');
+			Array.from(this.elements)[0].setAttribute('tabindex', '0');
+			this.focusedElement.setAttribute('tabindex', '-1');
 			this.focusIndex = 0;
 		}
-	}
+	};
 
 	private static userConfig: Partial<FocusRoverConfig> = {};
 
+	/** Build a FocusRover from a collection of elements or a selector. */
+	public static from(item: HTMLElement[] | NodeListOf<HTMLElement> | string): FocusRover {
+		if (typeof item === 'string') {
+			return FocusRover.fromSelector(item);
+		}
+		if (item instanceof NodeList) {
+			return FocusRover.fromNodeList(item);
+		}
+		return FocusRover.fromElements(...item);
+	}
+
+	/** Build a FocusRover from a list of elements */
 	public static fromElements(...elements: HTMLElement[]): FocusRover {
 		const rover = new FocusRover();
 		elements.forEach(rover.addElement.bind(rover));
 		return rover;
 	}
 
-	public static fromSelection(selector: string): FocusRover {
+	/** Build a FocusRover from a CSS selector. */
+	public static fromSelector(selector: string): FocusRover {
 		const elements = document.querySelectorAll<HTMLElement>(selector);
 		return FocusRover.fromElements(...Array.from(elements));
 	}
 
+	/** Build a FocusRover from a NodeList (querySelectorAll collection) */
+	public static fromNodeList(nodeList: NodeListOf<HTMLElement>): FocusRover {
+		return FocusRover.fromElements(...Array.from(nodeList));
+	}
+
+	/** Configure all FocusRover instances. */
 	public static configure(config: Partial<FocusRoverConfig>): void {
 		FocusRover.userConfig = config;
 	}
 
+	/** The FocusRover configuration. */
 	public static get config(): FocusRoverConfig {
 		return { ...FocusRover.defaultConfig, ...(FocusRover.userConfig || {}) };
 	}
 
-	private static defaultConfig: FocusRoverConfig = {
-		nextKeys: [
-			'ArrowDown',
-			'ArrowRight',
-		],
-		prevKeys: [
-			'ArrowUp',
-			'ArrowLeft',
-		],
+	/** The default FocusRover configuration. */
+	public static defaultConfig: FocusRoverConfig = {
+		nextKeys: ['ArrowDown', 'ArrowRight'],
+		prevKeys: ['ArrowUp', 'ArrowLeft'],
 		wrap: true,
 		resetOnBlur: false,
 	}
