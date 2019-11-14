@@ -1,6 +1,6 @@
 {
   "name": "focus-rover",
-  "version": "2.0.0",
+  "version": "1.0.0-rc.2",
   "description": "Set a roving focus on a group of elements.",
   "keywords": [
     "a11y",
@@ -28,7 +28,7 @@
   "scripts": {
     "build": "rm -rf lib && tsc -p .",
     "lint": "eslint '**/*.ts'",
-    "prepublishOnly": "npm run build && npm run test",
+    "prepublishOnly": "npm run build",
     "release": "standard-version --sign",
     "test": "nyc ava"
   },
