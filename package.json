@@ -1,6 +1,6 @@
 {
   "name": "focus-rover",
-  "version": null,
+  "version": "2.0.0",
   "description": "Set a roving focus on a group of elements.",
   "keywords": [
     "a11y",
