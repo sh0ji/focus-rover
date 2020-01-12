@@ -20,11 +20,10 @@
   "license": "MIT",
   "author": "Evan Yamanishi",
   "files": [
-    "lib",
-    "src"
+    "lib"
   ],
-  "main": "dist/focus-rover.js",
-  "types": "dist/focus-rover.d.ts",
+  "main": "lib/focus-rover.js",
+  "types": "lib/focus-rover.d.ts",
   "scripts": {
     "build": "rm -rf lib && tsc -p .",
     "lint": "eslint '**/*.ts'",
