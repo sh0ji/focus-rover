@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.2](https://github.com/sh0ji/focus-rover/compare/v2.0.1...v2.0.2) (2020-01-12)
+
+
+### Bug Fixes
+
+* ensure that lib is included in npm ([1caa7cb](https://github.com/sh0ji/focus-rover/commit/1caa7cb126fd084335cbb7513457d04db34ea013))
+
 ### [2.0.1](https://github.com/sh0ji/focus-rover/compare/v1.0.0...v2.0.1) (2019-11-14)
 
 ## [2.0.0](https://github.com/sh0ji/focus-rover/compare/v1.0.0...v2.0.0) (2019-11-14)
