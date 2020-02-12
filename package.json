@@ -5,9 +5,10 @@
   "main": "dist/focus-rover.cjs.js",
   "scripts": {
     "build": "rollup -c",
+    "lint": "eslint .",
     "liveTest": "karma start karma.conf.js",
     "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
-    "prepublishOnly": "npm run build && npm run test"
+    "prepublishOnly": "npm run lint && npm run build && npm run test"
   },
   "repository": {
     "type": "git",
@@ -28,11 +29,9 @@
   "homepage": "https://github.com/sh0ji/focus-rover#readme",
   "devDependencies": {
     "chai": "^4.0.2",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.6.1",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.9.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
     "karma": "^1.7.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.1.1",
