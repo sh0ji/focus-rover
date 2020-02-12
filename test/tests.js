@@ -108,9 +108,9 @@ describe('Rover', () => {
                         let k = keypress;
                         if (config.wrap) {
                             const mod = keypress % rover.elements.length;
-                            k = (config.reverse) ?
-                                (rover.elements.length - mod) % rover.elements.length :
-                                mod;
+                            k = (config.reverse)
+                                ? (rover.elements.length - mod) % rover.elements.length
+                                : mod;
                         } else {
                             if (keypress > rover.lastIndex) k = rover.lastIndex;
                             if (config.reverse) k = 0;
@@ -179,7 +179,7 @@ describe('Rover', () => {
         describe('non-focusable elements', () => {
             beforeEach(() => {
                 elements = document.querySelectorAll('li');
-                elements.forEach(el => el.firstChild.removeAttribute('href'));
+                elements.forEach((el) => el.firstChild.removeAttribute('href'));
                 rover = new Rover(elements);
                 elements[0].focus();
             });

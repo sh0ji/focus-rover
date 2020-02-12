@@ -46,7 +46,7 @@ export default class Rover {
         }
         this.elements = elements;
         this.default = Default;
-        this.config = Object.assign({}, Default, config);
+        this.config = { ...Default, ...config };
         if (this.elements.length) this.init(true);
     }
 
@@ -81,7 +81,7 @@ export default class Rover {
     }
 
     setListeners(el, i) {
-        const notEl = this.elements.filter(elem => elem !== el);
+        const notEl = this.elements.filter((elem) => elem !== el);
         el.addEventListener('keydown', (e) => {
             if (this.validKeys.includes(e.code)) {
                 e.preventDefault();
@@ -92,13 +92,13 @@ export default class Rover {
         el.addEventListener('focusin', (e) => {
             if (e.target !== this.currentElement) {
                 Rover.activate(el);
-                notEl.forEach(elem => Rover.deactivate(elem));
+                notEl.forEach((elem) => Rover.deactivate(elem));
             }
         });
         el.addEventListener('blur', (e) => {
             const newFocus = e.relatedTarget;
-            if (this.config.resetOnExit &&
-                !this.elements.includes(newFocus)) {
+            if (this.config.resetOnExit
+                && !this.elements.includes(newFocus)) {
                 this.init(false);
             }
         });
@@ -121,7 +121,7 @@ export default class Rover {
     }
 
     get currentElement() {
-        return this.elements.find(el => el.getAttribute('tabindex') !== '-1');
+        return this.elements.find((el) => el.getAttribute('tabindex') !== '-1');
     }
 
     get backward() {
