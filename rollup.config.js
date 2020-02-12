@@ -1,6 +1,5 @@
-import buble from 'rollup-plugin-buble';
-import eslint from 'rollup-plugin-eslint';
-import uglify from 'rollup-plugin-uglify';
+import buble from '@rollup/plugin-buble';
+import { uglify } from 'rollup-plugin-uglify';
 
 const config = (format, min) => {
     let suffix;
@@ -15,16 +14,19 @@ const config = (format, min) => {
         suffix = `.${format}`;
     }
     const plugins = [
-        eslint(),
-        buble(),
+        buble({
+            objectAssign: 'Object.assign',
+        }),
     ];
     if (min) plugins.push(uglify());
 
     return {
-        entry: 'index.js',
-        dest: `dist/focus-rover${suffix}.js`,
-        format,
-        moduleName: 'Rover',
+        input: 'index.js',
+        output: {
+            file: `dist/focus-rover${suffix}.js`,
+            name: 'Rover',
+            format,
+        },
         plugins,
     };
 };
