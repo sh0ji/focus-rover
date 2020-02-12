@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const rollupPluginBuble = require('rollup-plugin-buble')();
+const rollupPluginBuble = require('@rollup/plugin-buble');
 
 module.exports = (config) => {
     config.set({
@@ -18,7 +18,9 @@ module.exports = (config) => {
             './index.js': ['rollup', 'coverage'],
         },
         rollupPreprocessor: {
-            plugins: [rollupPluginBuble],
+            plugins: [rollupPluginBuble({
+                objectAssign: 'Object.assign',
+            })],
             format: 'iife',
             moduleName: 'Rover',
             sourceMap: 'inline',
