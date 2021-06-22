@@ -19,57 +19,63 @@
   },
   "license": "MIT",
   "author": "Evan Yamanishi",
+  "type": "module",
+  "exports": "./dist/foo.modern.js",
+  "main": "./dist/index.cjs",
+  "unpkg": "./dist/index.umd.js",
+  "module": "./dist/index.module.js",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "lib"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "scripts": {
-    "build": "rm -rf lib && tsc -p .",
-    "lint": "eslint '**/*.ts'",
+    "build": "microbundle",
+    "lint": "eslint '**/*.ts' --ignore-path .gitignore",
     "prepublishOnly": "npm run build",
     "release": "standard-version --sign",
     "test": "nyc ava"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.15.0",
-    "@typescript-eslint/parser": "^2.15.0",
-    "ava": "^2.4.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.20.0",
-    "nyc": "^14.1.1",
-    "standard-version": "^7.0.1",
-    "typescript": "^3.7.4"
   },
   "ava": {
     "compileEnhancements": false,
     "extensions": [
       "ts"
     ],
-    "require": [
-      "ts-node/register"
-    ],
     "helpers": [
       "**/helpers/**/*"
+    ],
+    "require": [
+      "ts-node/register"
     ]
   },
   "nyc": {
     "all": true,
-    "include": [
-      "src/**/*.ts"
-    ],
     "extension": [
       ".ts"
     ],
-    "require": [
-      "ts-node/register"
+    "include": [
+      "src/**/*.ts"
     ],
+    "instrument": true,
     "reporter": [
       "text",
       "html"
     ],
-    "sourceMap": true,
-    "instrument": true
+    "require": [
+      "ts-node/register"
+    ],
+    "sourceMap": true
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
+    "ava": "^2.4.0",
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.0",
+    "microbundle": "^0.13.3",
+    "nyc": "^14.1.1",
+    "standard-version": "^7.0.1",
+    "typescript": "^3.7.4"
   }
 }
