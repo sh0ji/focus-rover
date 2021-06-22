@@ -24,12 +24,12 @@ export interface FocusRoverConfig {
 export default class FocusRover {
 	/** The collection of managed focusable elements. */
 	public elements = new Set<HTMLElement>();
-	private focusIndex = 0;
-	private roving = false;
+	#focusIndex = 0;
+	#roving = false;
 
 	/** The element in the collection that is currently focusable. */
 	public get focusedElement(): HTMLElement {
-		return Array.from(this.elements)[this.focusIndex];
+		return Array.from(this.elements)[this.#focusIndex];
 	}
 
 	/** Add an element to the collection of focusable elements. */
@@ -49,39 +49,39 @@ export default class FocusRover {
 	public rove(index: number): this {
 		if (
 			// not already focused
-			this.focusIndex !== index
+			this.#focusIndex !== index
 			// and inside of the range of eligible indices
 			&& index >= 0
 			&& index < this.elements.size
 		) {
 			// toggle the roving flag so blur doesn't reset tabindex
-			this.roving = true;
+			this.#roving = true;
 			// unfocus the currently-focused element
 			this.focusedElement.setAttribute('tabindex', '-1');
 			// focus the next element
 			const el = Array.from(this.elements)[index];
 			el.removeAttribute('tabindex');
 			el.focus();
-			this.focusIndex = index;
-			this.roving = false;
+			this.#focusIndex = index;
+			this.#roving = false;
 		}
 		return this;
 	}
 
 	/** Move the roving focus to the next focusable element in the collection. */
 	public next(): this {
-		let nextIndex = this.focusIndex + 1;
+		let nextIndex = this.#focusIndex + 1;
 		if (nextIndex === this.elements.size) {
-			nextIndex = (FocusRover.config.wrap) ? 0 : this.focusIndex;
+			nextIndex = (FocusRover.config.wrap) ? 0 : this.#focusIndex;
 		}
 		return this.rove(nextIndex);
 	}
 
 	/** Move the roving focus to the previous focusable element in the collection. */
 	public prev(): this {
-		let prevIndex = this.focusIndex - 1;
+		let prevIndex = this.#focusIndex - 1;
 		if (prevIndex === -1) {
-			prevIndex = (FocusRover.config.wrap) ? this.elements.size - 1 : this.focusIndex;
+			prevIndex = (FocusRover.config.wrap) ? this.elements.size - 1 : this.#focusIndex;
 		}
 		return this.rove(prevIndex);
 	}
@@ -100,10 +100,10 @@ export default class FocusRover {
 	};
 
 	private onBlur = (): void => {
-		if (!this.roving && FocusRover.config.resetOnBlur) {
+		if (!this.#roving && FocusRover.config.resetOnBlur) {
 			Array.from(this.elements)[0].setAttribute('tabindex', '0');
 			this.focusedElement.setAttribute('tabindex', '-1');
-			this.focusIndex = 0;
+			this.#focusIndex = 0;
 		}
 	};
 
