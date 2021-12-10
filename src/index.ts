@@ -154,5 +154,5 @@ export default class FocusRover {
 		prevKeys: ['ArrowUp', 'ArrowLeft'],
 		wrap: true,
 		resetOnBlur: false,
-	}
+	};
 }
